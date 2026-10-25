@@ -37,25 +37,25 @@ This demonstrates an attempted lateral movement path, not a successful compromis
 
 The dashboard provides an overview of simulated hosts, incident metrics, decoy interactions, and observed attack hops.
 
-![Breadcrumb Dashboard](screenshots/dashboard.png)
+![Breadcrumb Dashboard](screenshots/Dashboard.png)
 
 ### 2.2 Hosts and Decoy Vault
 
 Explore the simulated host environment, virtual files, and planted decoy credentials.
 
-![Breadcrumb Hosts and Decoy Vault](screenshots/hosts-decoy-vault.png)
+![Breadcrumb Hosts and Decoy Vault](screenshots/decoyvault.png)
 
 ### 2.3 Attack Simulation and Incident Reconstruction
 
 Run the simulated attack demo and inspect the generated events, alerts, timeline, and attempted movement between hosts.
 
-![Breadcrumb Attack Simulation](screenshots/attack-demo.png)
+![Breadcrumb Attack Simulation](screenshots/AttackSimulator.png)
 
 ### 2.4 Incident Report
 
 Review the investigation findings and available incident report export options.
 
-![Breadcrumb Incident Report](screenshots/incident-report.png)
+![Breadcrumb Incident Report](screenshots/incidentreport.png)
 
 ---
 
