@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Breadcrumb — AI-Assisted Cyber Deception & Incident Reconstruction Platform
 
 > **"Plant the breadcrumb. Trace the intrusion. Reconstruct the incident."**
@@ -139,4 +139,4 @@ npm run dev
 =======
 # Breadcrumb
 Cyber Deception and Incident Reconstruction Platform
->>>>>>> 03d19d99e0323b02ab5b63ef3c3c470fb4dd9506
+
