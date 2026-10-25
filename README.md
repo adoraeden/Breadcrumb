@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Breadcrumb — AI-Assisted Cyber Deception & Incident Reconstruction Platform
 
 > **"Plant the breadcrumb. Trace the intrusion. Reconstruct the incident."**
@@ -135,3 +136,7 @@ npm run dev
 - **Simulated Environment:** All host nodes, network IPs (`192.0.2.x` reserved documentation range), filesystems, and credentials are completely simulated in memory.
 - **No Real Network Scanning:** The tool never executes raw socket scans, packet sniffing, or external brute-forcing.
 - **In-Memory Volatility:** Simulation state is maintained authoritatively in Node.js memory and can be cleanly reset at any time via the UI or `/api/reset`.
+=======
+# Breadcrumb
+Cyber Deception and Incident Reconstruction Platform
+>>>>>>> 03d19d99e0323b02ab5b63ef3c3c470fb4dd9506
