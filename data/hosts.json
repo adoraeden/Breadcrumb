@@ -1,0 +1,101 @@
+[
+  {
+    "id": "web-01",
+    "name": "web-01",
+    "role": "Web Server",
+    "ip": "192.0.2.10",
+    "status": "Healthy",
+    "defaultUser": "deploy-user",
+    "zone": "DMZ",
+    "os": "Ubuntu 24.04 LTS (Simulated)",
+    "description": "Production ingress web server running reverse proxy and application runtime.",
+    "files": {
+      "deployment_notes.txt": "# AUTOMATED DEPLOYMENT & BACKUP CONFIG\n# TARGET_HOST: backup-01 (192.0.2.50)\n# AUTH_KEY: DECOY-WEB-7F3A\n# PERMISSIONS: write:backup_vault\n# NOTE: Keep rotated every 30 days. Do not commit to version control.",
+      "nginx.conf": "server {\n  listen 80;\n  server_name api.internal.local;\n  location / {\n    proxy_pass http://localhost:8080;\n    proxy_set_header Host $host;\n  }\n}",
+      "app": {
+        "server.js": "const http = require('http');\nconst server = http.createServer((req, res) => res.end('OK'));\nserver.listen(8080);",
+        "package.json": "{\n  \"name\": \"core-gateway\",\n  \"version\": \"1.4.2\",\n  \"private\": true\n}",
+        ".env.production": "PORT=8080\nCACHE_ENABLED=true\nMETRICS_PORT=9090"
+      },
+      "logs": {
+        "access.log": "192.0.2.1 - - [24/Oct/2026:22:15:02 +0000] \"GET /health HTTP/1.1\" 200 15\n192.0.2.1 - - [24/Oct/2026:22:16:45 +0000] \"GET /metrics HTTP/1.1\" 200 420",
+        "error.log": "[24/Oct/2026:22:10:00] [notice] worker process 1024 started"
+      }
+    }
+  },
+  {
+    "id": "db-01",
+    "name": "db-01",
+    "role": "Database Server",
+    "ip": "192.0.2.20",
+    "status": "Healthy",
+    "defaultUser": "postgres-admin",
+    "zone": "Internal Secure",
+    "os": "Debian 12 Bookworm (Simulated)",
+    "description": "Primary relational database cluster containing financial records and ledger data.",
+    "files": {
+      "postgresql.conf": "listen_addresses = '192.0.2.20'\nmax_connections = 200\nshared_buffers = 4GB\nssl = on\nwal_level = replica",
+      "pg_hba.conf": "# TYPE  DATABASE  USER  ADDRESS  METHOD\nhost    all       all   192.0.2.0/24  scram-sha-256",
+      "schema.sql": "CREATE TABLE ledger_entries (\n  id UUID PRIMARY KEY,\n  account_id VARCHAR(64),\n  amount NUMERIC(12, 2),\n  recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n);",
+      "backup_jobs.sh": "#!/usr/bin/env bash\n# Nightly snapshot invocation to backup-01\npg_dump -Fc -U postgres-admin prod_db > /tmp/prod_db.dump"
+    }
+  },
+  {
+    "id": "fileserver",
+    "name": "fileserver",
+    "role": "File Storage",
+    "ip": "192.0.2.30",
+    "status": "Healthy",
+    "defaultUser": "storage-svc",
+    "zone": "Internal Shared",
+    "os": "Red Hat Enterprise Linux 9 (Simulated)",
+    "description": "NFS/SMB network attached storage repository for internal corporate documents.",
+    "files": {
+      "quarterly_sync_token.conf": "[STORAGE_SYNC_DAEMON]\nTARGET_HOST=web-01 (192.0.2.10)\nACCESS_TOKEN=DECOY-FILE-8B24\nROLE=asset-ingestion-worker\nSYNC_INTERVAL=3600\nEXPIRY=NEVER",
+      "audit_policy.conf": "# Retention: 7 Years\nAUDIT_LOG_ROTATION=weekly\nARCHIVE_ENCRYPTION=AES-256-GCM",
+      "shared_docs": {
+        "network_topology.md": "# Internal Subnet Layout\n- DMZ: 192.0.2.0/28\n- Database: 192.0.2.16/28\n- Storage: 192.0.2.32/28\n- Workstations: 192.0.2.48/28",
+        "onboarding_guide.pdf.txt": "Internal infrastructure guidelines and access request procedure."
+      }
+    }
+  },
+  {
+    "id": "dev-laptop",
+    "name": "dev-laptop",
+    "role": "Developer Workstation",
+    "ip": "192.0.2.40",
+    "status": "Healthy",
+    "defaultUser": "alex.dev",
+    "zone": "User Workstations",
+    "os": "Fedora Workstation 40 (Simulated)",
+    "description": "Local workstation utilized by senior backend engineer for application staging.",
+    "files": {
+      ".env.staging": "# STAGING CLUSTER CONFIGURATION\nTARGET_HOST=db-01 (192.0.2.20)\nDB_STAGING_KEY=DECOY-DEV-2C91\nREPLICA_ENDPOINT=192.0.2.20:5432\nNOTE=Credentials provisioned for staging database sync tests",
+      "bash_history": "git checkout feature/api-redesign\nnpm test\nssh -i ~/.ssh/id_staging alex@192.0.2.20\ncat .env.staging\ncurl http://web-01/health",
+      "notes.md": "# Staging Verification Plan\nVerify replica synchronization with db-01 using staging credentials.",
+      "projects": {
+        "api_gateway": "main.go: package main\nfunc main() { println(\"Gateway active\") }",
+        "auth_service": "index.ts: export const verifyAuth = () => true;"
+      }
+    }
+  },
+  {
+    "id": "backup-01",
+    "name": "backup-01",
+    "role": "Backup Server",
+    "ip": "192.0.2.50",
+    "status": "Healthy",
+    "defaultUser": "backup-agent",
+    "zone": "Isolated Vault",
+    "os": "Alpine Linux 3.20 (Simulated)",
+    "description": "Hardened offline and cold disaster recovery repository for internal clusters.",
+    "files": {
+      "retention_policy.json": "{\n  \"retention_days\": 90,\n  \"immutable_lock\": true,\n  \"checksum_verification\": \"sha256\"\n}",
+      "authorized_keys": "# Authorized backup sync keys\n# Ingress restricted to authenticated backup agents",
+      "backup_vault": {
+        "snapshot-2026-10-20.tar.gz": "[BINARY BLOB: 4.8 GB Encrypted Archive]",
+        "db_dump_latest.sql.enc": "[BINARY BLOB: 1.2 GB AES-256 Encrypted]"
+      }
+    }
+  }
+]

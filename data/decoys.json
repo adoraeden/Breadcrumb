@@ -1,0 +1,47 @@
+[
+  {
+    "id": "DECOY-WEB-7F3A",
+    "name": "Backup Automation Key",
+    "type": "Deployment Credential",
+    "originHost": "web-01",
+    "originFile": "deployment_notes.txt",
+    "plantedAt": "2026-10-20T08:00:00.000Z",
+    "status": "Planted",
+    "intendedTarget": "backup-01",
+    "description": "Decoy deployment key planted in web-01 deployment notes to lure lateral movers targeting cold storage.",
+    "fakePayload": "AUTH_KEY: DECOY-WEB-7F3A (Scope: write:backup_vault)",
+    "interactionCount": 0,
+    "lastInteractedAt": null,
+    "observedTargets": []
+  },
+  {
+    "id": "DECOY-DEV-2C91",
+    "name": "Staging Replica Secret",
+    "type": "Database API Key",
+    "originHost": "dev-laptop",
+    "originFile": ".env.staging",
+    "plantedAt": "2026-10-21T09:30:00.000Z",
+    "status": "Planted",
+    "intendedTarget": "db-01",
+    "description": "Decoy PostgreSQL staging credential in developer workstation environment file lure targeting production DB.",
+    "fakePayload": "DB_STAGING_KEY=DECOY-DEV-2C91 (Port: 5432)",
+    "interactionCount": 0,
+    "lastInteractedAt": null,
+    "observedTargets": []
+  },
+  {
+    "id": "DECOY-FILE-8B24",
+    "name": "Storage Daemon Sync Token",
+    "type": "Service Access Token",
+    "originHost": "fileserver",
+    "originFile": "quarterly_sync_token.conf",
+    "plantedAt": "2026-10-22T14:15:00.000Z",
+    "status": "Planted",
+    "intendedTarget": "web-01",
+    "description": "Decoy bearer token planted inside file storage configuration lure targeting API web gateways.",
+    "fakePayload": "ACCESS_TOKEN=DECOY-FILE-8B24 (Role: asset-worker)",
+    "interactionCount": 0,
+    "lastInteractedAt": null,
+    "observedTargets": []
+  }
+]

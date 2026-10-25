@@ -1,0 +1,222 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  code, kbd, samp, pre {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+}
+
+/* Custom scrollbar for dark theme SOC console */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #080D18;
+}
+::-webkit-scrollbar-thumb {
+  background: #263449;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3b4d66;
+}
+
+/* Screen-only display rule for print-only elements */
+@media screen {
+  .print-only {
+    display: none !important;
+  }
+}
+
+/* Print Stylesheet for SOC Incident Report & Save as PDF */
+@media print {
+  @page {
+    margin: 1.2cm;
+    size: letter portrait;
+  }
+
+  /* Reset layout constraints so the full report prints across multiple pages without clipping */
+  html,
+  body {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 100% !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  #root,
+  #root > div {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 100% !important;
+    max-height: none !important;
+    position: static !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+  }
+
+  /* Hide screen elements during print with high specificity */
+  .no-print,
+  .screen-only,
+  header,
+  aside,
+  nav,
+  button,
+  input,
+  textarea,
+  [role="dialog"],
+  .modal-backdrop,
+  .print\:hidden,
+  #root .no-print,
+  #root .screen-only,
+  #root header,
+  #root aside,
+  #root nav,
+  #root button,
+  #root [role="dialog"] {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+  }
+
+  /* Show dedicated print dossier */
+  .print-only,
+  #root .print-only,
+  .print\:block {
+    display: block !important;
+    visibility: visible !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+  }
+
+  /* Main Print Report Container */
+  .print-container {
+    display: block !important;
+    visibility: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: none !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .print-container * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Typography color overrides for print on white paper */
+  .print-container h1,
+  .print-container h2,
+  .print-container h3,
+  .print-container h4 {
+    color: #0f172a !important;
+  }
+
+  .print-container p,
+  .print-container span,
+  .print-container div,
+  .print-container li,
+  .print-container td {
+    color: #1e293b !important;
+  }
+
+  /* Print Cards & Blocks */
+  .print-container .bg-slate-50,
+  .print-container [class*="bg-"] {
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+  }
+
+  .print-container .border-slate-300,
+  .print-container .border-slate-800,
+  .print-container .border-slate-900,
+  .print-container .border-\[\#263449\] {
+    border-color: #cbd5e1 !important;
+  }
+
+  /* Tables in print mode */
+  .print-container table {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    border-collapse: collapse !important;
+    table-layout: auto !important;
+    margin-top: 6px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .print-container th {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    border: 1px solid #94a3b8 !important;
+    padding: 6px 10px !important;
+    font-weight: 700 !important;
+    text-align: left !important;
+  }
+
+  .print-container td {
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+    padding: 6px 10px !important;
+  }
+
+  .print-container tr:nth-child(even) td {
+    background: #f8fafc !important;
+  }
+
+  /* Status Badges */
+  .print-badge-critical {
+    background: #fee2e2 !important;
+    color: #991b1b !important;
+    border: 1px solid #f87171 !important;
+  }
+
+  .print-badge-warning {
+    background: #fef3c7 !important;
+    color: #92400e !important;
+    border: 1px solid #fcd34d !important;
+  }
+
+  .print-badge-info {
+    background: #e0f2fe !important;
+    color: #0369a1 !important;
+    border: 1px solid #7dd3fc !important;
+  }
+
+  /* Avoid breaking inside sections across printed pages */
+  .print-section {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    margin-bottom: 1.25rem !important;
+  }
+
+  .print-container table,
+  .print-container tr {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+}
